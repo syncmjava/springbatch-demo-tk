@@ -1,7 +1,7 @@
 # springbatch-demo-tk
 * 启动
-com.example.demo.SpringbatchDemoTkApplication
+  * com.example.demo.SpringbatchDemoTkApplication
 
--Dspring.batch.job.names=testJob
+  * -Dspring.batch.job.names=testJob
 
 * https://dev.classmethod.jp/server-side/java/use_spring-batch_chunk/
