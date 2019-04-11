@@ -109,6 +109,7 @@ public class BatchJob {
         new BeanPropertyItemSqlParameterSourceProvider<Fruit>());
     writer.setSql("INSERT INTO fruit (name, price) VALUES (:name, :price)");
     writer.setDataSource(dataSource);
+
     return writer;
   }
 
