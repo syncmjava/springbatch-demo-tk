@@ -17,6 +17,7 @@ import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -32,7 +33,15 @@ public class BatchJob {
 
   @Autowired public StepBuilderFactory stepBuilderFactory;
 
-  @Autowired public DataSource dataSource;
+  //  @Autowired public DataSource dataSource;
+
+  @Autowired
+  @Qualifier("dataSource")
+  private DataSource dataSource;
+
+  @Autowired
+  @Qualifier("secondDatasource")
+  private DataSource secondDatasource;
 
   // ジョブ
   @Bean
@@ -43,6 +52,7 @@ public class BatchJob {
         .listener(listener())
         .flow(step1())
         .next(step2())
+        .next(step3())
         .end()
         .build();
   }
@@ -68,6 +78,18 @@ public class BatchJob {
         .reader(reader())
         .processor(processor())
         .writer(writer())
+        .build();
+  }
+
+  // ステップ２
+  @Bean
+  public Step step3() {
+    return stepBuilderFactory
+        .get("step3")
+        .<Fruit, Fruit>chunk(10)
+        .reader(reader())
+        .processor(processor())
+        .writer(writerSen())
         .build();
   }
 
@@ -109,6 +131,17 @@ public class BatchJob {
         new BeanPropertyItemSqlParameterSourceProvider<Fruit>());
     writer.setSql("INSERT INTO fruit (name, price) VALUES (:name, :price)");
     writer.setDataSource(dataSource);
+
+    return writer;
+  }
+
+  @Bean
+  public JdbcBatchItemWriter<Fruit> writerSen() {
+    JdbcBatchItemWriter<Fruit> writer = new JdbcBatchItemWriter<Fruit>();
+    writer.setItemSqlParameterSourceProvider(
+        new BeanPropertyItemSqlParameterSourceProvider<Fruit>());
+    writer.setSql("INSERT INTO fruit (name, price) VALUES (:name, :price)");
+    writer.setDataSource(secondDatasource);
 
     return writer;
   }

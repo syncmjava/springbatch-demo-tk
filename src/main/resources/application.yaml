@@ -6,3 +6,8 @@ spring:
     username: root
     password: 123456
     driverClassName: com.mysql.cj.jdbc.Driver
+  second-datasource:
+    url: jdbc:mysql://localhost:3306/demo_ds2?serverTimezone=UTC&useSSL=false
+    username: root
+    password: 123456
+    driverClassName: com.mysql.cj.jdbc.Driver
