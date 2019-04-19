@@ -43,6 +43,10 @@ public class BatchJob {
   @Qualifier("secondDatasource")
   private DataSource secondDatasource;
 
+  @Autowired
+  @Qualifier("thirdDatasource")
+  private DataSource thirdDatasource;
+
   // ジョブ
   @Bean
   public Job testJob() {
@@ -141,7 +145,7 @@ public class BatchJob {
     writer.setItemSqlParameterSourceProvider(
         new BeanPropertyItemSqlParameterSourceProvider<Fruit>());
     writer.setSql("INSERT INTO fruit (name, price) VALUES (:name, :price)");
-    writer.setDataSource(secondDatasource);
+    writer.setDataSource(thirdDatasource);
 
     return writer;
   }

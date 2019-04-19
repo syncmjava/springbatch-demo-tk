@@ -1,6 +1,7 @@
 package com.example.demo.batch.config;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,5 +40,15 @@ public class DBConfig implements EnvironmentAware {
     props.put("username", environment.getProperty("spring.second-datasource.username"));
     props.put("password", environment.getProperty("spring.second-datasource.password"));
     return DruidDataSourceFactory.createDataSource(props);
+  }
+
+  @Bean(name = "thirdDatasource")
+  public DataSource thirdDatasource() {
+    return DataSourceBuilder.create()
+        .url(environment.getProperty("spring.second-datasource.url"))
+        .driverClassName(environment.getProperty("spring.second-datasource.driverClassName"))
+        .username(environment.getProperty("spring.second-datasource.username"))
+        .password(environment.getProperty("spring.second-datasource.password"))
+        .build();
   }
 }
