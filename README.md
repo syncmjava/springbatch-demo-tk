@@ -11,3 +11,6 @@
   
   * https://www.petrikainulainen.net/programming/spring-framework/spring-batch-tutorial-reading-information-from-a-rest-api/
   * https://www.jianshu.com/p/c96049624891
+  
+* ExceptionHandler
+https://qiita.com/toto1310/items/19d2e0dcc7c2154f7b00
